@@ -1,0 +1,159 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>stock Market Viewer</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="styles/general.css?v=1.0">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <section class="header">
+        <div class="container">
+            <h1 class="header__title">Top Gainers</h1>
+            <h3 class="header__subtitle">This is a top 10 of the companies with the most profits of the day; if you'd like to get further information for a specific company, click the its container and a pop-up will give you the necessary data</h3>
+        </div>
+    </section>
+    <section class="stock-data">
+        <div class="container">
+            <div class="stock-elements">
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+                <a class="stock-elements__item" href="#" js-stock-element>
+                    <div class="stock-elements__general">
+                        <h2 js-stock-code></h2>
+                        <div class="stock-element__name">
+                            <h5 js-stock-name></h5>
+                        </div>
+                        <span js-stock-change></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="modal is-hidden" js-modal>
+        <div class="modal-content">
+            <div class="company-details">
+                <div class="company-details__info">
+                    <div class="company-details__text">
+                        <div class="company-details__id">
+                            <h2 class="company-details__symbol" js-company-symbol>SRAX</h2>
+                            <h3 class="company-details__name" js-company-name>Social Reality Inc.</h3>
+                        </div>
+                        <div class="company-details__stats">
+                            <span class="company-details__value" js-company-value>Stock Value Last Week</span>
+                            <span class="company-details__sector" js-company-sector>Sector</span>
+                        </div>
+                    </div>
+                    <div class="company-details__table-wrapper">
+                        <table class="company-details__table">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Change</th>
+                            </tr>
+                            </thead>
+                            <tbody js-company-table>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="company-details__graph" js-company-graph-container>
+                    <canvas class="company-details__graph" js-company-graph></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay is-hidden" js-overlay></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+    <script src="scripts/listUI.js" type="text/javascript"></script>
+</body>
+</html>
