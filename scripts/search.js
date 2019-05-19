@@ -17,13 +17,38 @@
     $dom.searchInput = $('[js-search-input]');
     $dom.navbarLinks = $('[js-navbar-links]');
     $dom.navbarToggle = $('[js-navbar-toggle]');
+    $dom.searchMessage = $('[js-search-message]');
 
     $dom.searchForm.addEventListener('submit', (e) => {
         e.preventDefault(); 
-        console.log('VALUE', $dom.searchInput.value);
         getDetailedCompany($dom.searchInput.value);
     });
 
+    // Fetches the stock data of a particular company
+    let getDetailedCompany = (company) => {
+        setSearchMessage('Searching...');
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4){
+                if(this.status == 200){
+                    let received = JSON.parse(this.responseText);
+                    console.log('>>>COMPANY DATA ' + company.toUpperCase(), received);
+                    openModal();
+                    clearSearchMessage();
+                    clearSearchInput();
+                    fillCompanyDetails(received);
+                    deployGraph(received);
+                }else if(this.status == 404){
+                    console.log('>>>UNKNOWN SYMBOL');
+                    setSearchMessage('The symbol you searched for is not available');
+                }
+            }
+        };
+        xhttp.open("GET", "https://api.iextrading.com/1.0/stock/" + company + "/batch?types=quote,news,chart&range=1m&last=10", true);
+        xhttp.send();
+    };
+
+    // Fills the modal with the necessary company data
     let fillCompanyDetails = (data) => {
         $dom.modalCompanySymbol.innerText = data.quote.symbol;
         $dom.modalCompanyName.innerText = data.quote.companyName;
@@ -31,19 +56,24 @@
         $dom.modalCompanyValue.innerText = data.quote.latestPrice;
     };
 
-    let getDetailedCompany = (company) => {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                openModal();
-                fillCompanyDetails(JSON.parse(this.responseText));
-                deployGraph(JSON.parse(this.responseText));
-            }
-        };
-        xhttp.open("GET", "https://api.iextrading.com/1.0/stock/" + company + "/batch?types=quote,news,chart&range=1m&last=10", true);
-        xhttp.send();
+    // After a successful fetch it clears the search input
+    let clearSearchInput = () => {
+        $dom.searchInput.value = '';
     };
 
+    // Lets the user know the status of his search
+    let setSearchMessage = (str) => {
+        $dom.searchMessage.innerText = str;
+        $dom.searchMessage.classList.remove('is-hidden');  
+    };
+
+    // Hides the message container if it's not needed
+    let clearSearchMessage = () => {
+        $dom.searchMessage.innerText = '';
+        $dom.searchMessage.classList.add('is-hidden');  
+    };
+
+    // Takes an array of object and returns an array one particular proerty
     let getDataset = (data, property) => {
         let arr = [];
         data.forEach((x) => {
@@ -52,6 +82,7 @@
         return arr;
     };
     
+    // Deletes and creates a new canvas for GraphJS
     let restartCanvas = () => {
         $dom.modalCompanyGraphContainer.innerHTML = '';
         let cnvs = document.createElement('canvas');
@@ -60,6 +91,7 @@
         $dom.modalCompanyGraphContainer.appendChild(cnvs);
     };
 
+    // Receives and displays a table of the stock change of the last 10 days
     let deployChangeTable = (data) => {
         let table = $dom.modalCompanyTable;
         table.innerHTML = '';
@@ -78,6 +110,7 @@
         }
     };
 
+    // Receives and displays a graph of relevant data of a particular stock
     let deployGraph = (data) => {
         restartCanvas();
         deployChangeTable(data.chart);
@@ -128,7 +161,11 @@
 				hover: {
 					mode: 'nearest',
 					intersect: true
-				},
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
 				scales: {
 					xAxes: [{
 						display: true,
@@ -147,7 +184,27 @@
 			}
         });
     };
+    
+    // Hides the modal and the overlay
+    let closeModal = () => {
+        $dom.overlay.classList.add('is-hidden');
+        $dom.modal.classList.add('is-hidden');
 
+        $dom.body.classList.remove('scroll-lock');
+    };
+
+    // Shows the modal and the overlay
+    let openModal = () => {
+        $dom.overlay.classList.remove('is-hidden');
+        $dom.modal.classList.remove('is-hidden');
+        
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        $dom.body.classList.add('scroll-lock');
+        
+    };
+
+    // Toggles the state of the mobile navbar
     let navbarToggle = () => {
       if($dom.navbarLinks.classList.contains('is-shown')){
             $dom.navbarLinks.classList.remove('is-shown')
@@ -156,15 +213,6 @@
       }
     };
 
-    let closeModal = () => {
-        $dom.overlay.classList.add('is-hidden');
-        $dom.modal.classList.add('is-hidden');
-    };
-
-    let openModal = () => {
-        $dom.overlay.classList.remove('is-hidden');
-        $dom.modal.classList.remove('is-hidden');
-    };
 
     window.addEventListener('DOMContentLoaded', () => {
         $dom.overlay.addEventListener('click', closeModal);

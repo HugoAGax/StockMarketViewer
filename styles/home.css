@@ -1,3 +1,4 @@
+/*----- HOMEPAGE PAGE SELECTORS -----*/
 .page-select{
     display: flex;
 }
@@ -6,15 +7,18 @@
         flex-wrap: wrap;
     }
 }
+
 .page-select__option{
     padding: 15px 25px;
     border-radius: 5px;
     transition: 0.2s;
     width: 100%;
 }
+
 .page-select__option:hover{
     background-color: #ccc;
 }
+
 .page-select__option h2{
     margin-top: 0px;
     margin-bottom: 5px;

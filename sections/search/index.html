@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../../styles/general.css">
   <link rel="stylesheet" href="../../styles/specific.css">
   <link rel="stylesheet" href="../../styles/utilities.css">
-  <link rel="stylesheet" href="../../styles/listing.css">
+  <link rel="stylesheet" href="../../styles/search.css">
   <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
   <link href="../../assets/icon.png" rel="icon"  type="image/png" />
 </head>
@@ -40,7 +40,7 @@
     <section class="header">
         <div class="container">
             <h1 class="header__title">Search</h1>
-            <h3 class="header__subtitle">This is a top 10 of the companies with the most active stocks of the day; if you'd like to get further information for a specific company, click the its container and a pop-up will give you the necessary data</h3>
+            <h3 class="header__subtitle">Type the specific NASDAQ symbol for the company you're interested to show a modal with its information</h3>
         </div>
     </section>
     <section class="page-content">
@@ -50,9 +50,7 @@
                     <input class="stock-data__input" placeholder="Search for a company by their symbol i.e. BABA for Alibaba"js-search-input>
                     <button class="stock-data__btn" type="submit">Search</button>
                 </form>
-                <span class="stock-data__message">
-                    The symbol you searched for is not available
-                </span>
+                <span class="stock-data__message is-hidden" js-search-message></span>
             </div>
         </div>
     </section>

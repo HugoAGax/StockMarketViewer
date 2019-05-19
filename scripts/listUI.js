@@ -176,7 +176,11 @@
 				hover: {
 					mode: 'nearest',
 					intersect: true
-				},
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
 				scales: {
 					xAxes: [{
 						display: true,
