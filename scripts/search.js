@@ -1,10 +1,9 @@
 (function() {
+
     let $ = document.querySelector.bind(document);
-    let $$ = document.querySelectorAll.bind(document);
 
     const $dom = {};
 
-    $dom.stockElms = $$('[js-stock-element]');
     $dom.overlay = $('[js-overlay]');
     $dom.modal = $('[js-modal]');
     $dom.modalCompanySymbol = $('[js-company-symbol]');
@@ -14,68 +13,24 @@
     $dom.modalCompanyGraphContainer = $('[js-company-graph-container]');
     $dom.modalCompanyTable = $('[js-company-table]');
     $dom.modalClose = $('[js-modal-close]');
-    $dom.body = $('body'); 
-    $dom.stockListing = $('[js-stock-listing]');
-    $dom.stockMessaging = $('[js-stock-message]');
-    $dom.stockAnnouncement = $('[js-stock-alert]');
-    $dom.stockLoader = $('[js-stock-loader]');
+    $dom.searchForm = $('[js-search-form]');
+    $dom.searchInput = $('[js-search-input]');
     $dom.navbarLinks = $('[js-navbar-links]');
     $dom.navbarToggle = $('[js-navbar-toggle]');
 
-    // Retrieves a listing of stocks i.e. Most Active
-    let getTopStocks = (filter) => {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200 ) {
-                retrieved = JSON.parse(this.responseText);
-                if (Object.keys(retrieved).length){
-                    console.log('>>LISTING FOR ' + filter.toUpperCase(), retrieved );
-                    setTopList(retrieved);
-                }else{
-                    setMessage('Data is not available for this listing');
-                }
-            }
-        };
-        xhttp.open('GET', 'https://api.iextrading.com/1.0/stock/market/list/' + filter, true);
-        xhttp.send();
+    $dom.searchForm.addEventListener('submit', (e) => {
+        e.preventDefault(); 
+        console.log('VALUE', $dom.searchInput.value);
+        getDetailedCompany($dom.searchInput.value);
+    });
+
+    let fillCompanyDetails = (data) => {
+        $dom.modalCompanySymbol.innerText = data.quote.symbol;
+        $dom.modalCompanyName.innerText = data.quote.companyName;
+        $dom.modalCompanySector.innerText = data.quote.sector;
+        $dom.modalCompanyValue.innerText = data.quote.latestPrice;
     };
 
-    // Lets the user know if the the listing data couldn't be fetched
-    let setMessage = (message) => {
-        $dom.stockLoader.classList.add('is-hidden');
-        $dom.stockAnnouncement.innerText = message;
-    };
-
-    // Fills the necessary tags to show the data
-    let setTopList = (topListing) => {
-        $dom.stockElms.forEach((el, i) => {
-            el.addEventListener('click', singleCompany);
-            el.setAttribute('companycode', (topListing[i].symbol).toLowerCase());
-            el.querySelector('h2').innerText = topListing[i].symbol;
-            el.querySelector('h5').innerText = topListing[i].companyName;
-            if(topListing[i].change > 0){
-                el.querySelector('span').innerHTML = '&#9650;' + topListing[i].change;
-            }else{
-                el.querySelector('span').innerHTML = '&#9660;' + Math.abs(topListing[i].change);
-                el.querySelector('span').classList.add('negative-change');
-            }
-        });
-        showListing();
-    };
-
-    // Shows the data of the retrieved listing and hides the loader
-    let showListing = () => {
-        $dom.stockListing.classList.remove('is-hidden');
-        $dom.stockMessaging.classList.add('is-hidden');
-    };
-
-    // Handles the functions after clicking on a partiular company
-    let singleCompany = (e) => {
-        e.preventDefault();
-        getDetailedCompany(e.target.getAttribute('companycode'));
-    };
-
-    // Fetches the stock data of a particular company
     let getDetailedCompany = (company) => {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -89,15 +44,6 @@
         xhttp.send();
     };
 
-    // Fills the modal with the necessary company data
-    let fillCompanyDetails = (data) => {
-        $dom.modalCompanySymbol.innerText = data.quote.symbol;
-        $dom.modalCompanyName.innerText = data.quote.companyName;
-        $dom.modalCompanySector.innerText = data.quote.sector;
-        $dom.modalCompanyValue.innerText = data.quote.latestPrice;
-    };
-
-    // Takes an array of object and returns an array one particular proerty
     let getDataset = (data, property) => {
         let arr = [];
         data.forEach((x) => {
@@ -105,8 +51,15 @@
         });
         return arr;
     };
+    
+    let restartCanvas = () => {
+        $dom.modalCompanyGraphContainer.innerHTML = '';
+        let cnvs = document.createElement('canvas');
+        cnvs.setAttribute('class', 'company-details__graph');
 
-    // Receives and displays a table of the stock change of the last 10 days
+        $dom.modalCompanyGraphContainer.appendChild(cnvs);
+    };
+
     let deployChangeTable = (data) => {
         let table = $dom.modalCompanyTable;
         table.innerHTML = '';
@@ -125,7 +78,6 @@
         }
     };
 
-    // Receives and displays a graph of relevant data of a particular stock
     let deployGraph = (data) => {
         restartCanvas();
         deployChangeTable(data.chart);
@@ -195,36 +147,7 @@
 			}
         });
     };
-    
-    // Deletes and creates a new canvas for GraphJS
-    let restartCanvas = () => {
-        $dom.modalCompanyGraphContainer.innerHTML = '';
-        let cnvs = document.createElement('canvas');
-        cnvs.setAttribute('class', 'company-details__graph');
 
-        $dom.modalCompanyGraphContainer.appendChild(cnvs);
-    };
-
-    // Hides the modal and the overlay
-    let closeModal = () => {
-        $dom.overlay.classList.add('is-hidden');
-        $dom.modal.classList.add('is-hidden');
-
-        $dom.body.classList.remove('scroll-lock');
-    };
-
-    // Shows the modal and the overlay
-    let openModal = () => {
-        $dom.overlay.classList.remove('is-hidden');
-        $dom.modal.classList.remove('is-hidden');
-        
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-        $dom.body.classList.add('scroll-lock');
-        
-    };
-
-    // Toggles the state of the mobile navbar
     let navbarToggle = () => {
       if($dom.navbarLinks.classList.contains('is-shown')){
             $dom.navbarLinks.classList.remove('is-shown')
@@ -233,8 +156,17 @@
       }
     };
 
-    window.addEventListener('DOMContentLoaded', (event) => {
-        getTopStocks($dom.body.getAttribute('data-list-type'));
+    let closeModal = () => {
+        $dom.overlay.classList.add('is-hidden');
+        $dom.modal.classList.add('is-hidden');
+    };
+
+    let openModal = () => {
+        $dom.overlay.classList.remove('is-hidden');
+        $dom.modal.classList.remove('is-hidden');
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
         $dom.overlay.addEventListener('click', closeModal);
         $dom.modalClose.addEventListener('click', closeModal);
         $dom.navbarToggle.addEventListener('click', navbarToggle);

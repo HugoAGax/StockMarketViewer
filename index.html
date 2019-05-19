@@ -3,157 +3,70 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>stock Market Viewer</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+  <title>Stock Market Viewer</title>
+  <meta name="description" content="Stock Market Viewer">
+  <meta name="author" content="Hugo Gaxiola">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link rel="stylesheet" href="styles/general.css?v=1.0">
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="stylesheet" href="styles/utilities.css">
+  <link rel="stylesheet" href="styles/home.css">
+
   <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
-
+  <link href="assets/icon.png" rel="icon"  type="image/png" />
 </head>
 
-<body>
+<body data-list-type="gainers">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar__wrapper">
+                <div class="navbar__left">
+                    <a href="#" class="navbar__logo">
+                        <img src="assets/icon.png" class="navbar__icon">
+                        StockMarketViewer
+                    </a>
+                </div>
+                <div class="navbar__links" js-navbar-links>
+                    <a href="sections/gainers/index.html">Top Gainers</a>
+                    <a href="sections/mostactive/index.html">Most Active</a>
+                    <a href="sections/search/index.html">Search</a>
+                </div>
+                <div class="navbar__right">
+                    <a class="navbar__menu" js-navbar-toggle>&#9776;</a>
+                </div>
+            </div>
+        </div>
+    </nav>
     <section class="header">
         <div class="container">
-            <h1 class="header__title">Top Gainers</h1>
-            <h3 class="header__subtitle">This is a top 10 of the companies with the most profits of the day; if you'd like to get further information for a specific company, click the its container and a pop-up will give you the necessary data</h3>
+            <h1 class="header__title">Stock Market Viewer</h1>
+            <h3 class="header__subtitle">
+                This is a tool that allows you to see different data from the stock market, such as the Most Active stocks, the Top Gainers and personalized Searches.
+                <br>All data is being retrieved from the IEX Trading API.
+            </h3>
         </div>
     </section>
-    <section class="stock-data">
+    <section class="page-content">
         <div class="container">
-            <div class="stock-elements">
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
+            <div class="page-select">
+                <a href="sections/gainers/index.html" class="page-select__option">
+                    <h2>Top Gainers</h2>
+                    <span>A Top 10 listing of the latest and with the highest gains</span>
                 </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
+                <a href="sections/mostactive/index.html" class="page-select__option">
+                    <h2>Most Active</h2>
+                    <span>A Top 10 listing of the latest and with the highest gains</span>
                 </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
-                </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
-                </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
-                </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
-                </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
-                </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
-                </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
-                </a>
-                <a class="stock-elements__item" href="#" js-stock-element>
-                    <div class="stock-elements__general">
-                        <h2 js-stock-code></h2>
-                        <div class="stock-element__name">
-                            <h5 js-stock-name></h5>
-                        </div>
-                        <span js-stock-change></span>
-                    </div>
+                <a href="sections/search/index.html" class="page-select__option">
+                    <h2>Search</h2>
+                    <span>A Top 10 listing of the latest and with the highest gains</span>
                 </a>
             </div>
         </div>
     </section>
-
-
-    <div class="modal is-hidden" js-modal>
-        <div class="modal-content">
-            <div class="company-details">
-                <div class="company-details__info">
-                    <div class="company-details__text">
-                        <div class="company-details__id">
-                            <h2 class="company-details__symbol" js-company-symbol>SRAX</h2>
-                            <h3 class="company-details__name" js-company-name>Social Reality Inc.</h3>
-                        </div>
-                        <div class="company-details__stats">
-                            <span class="company-details__value" js-company-value>Stock Value Last Week</span>
-                            <span class="company-details__sector" js-company-sector>Sector</span>
-                        </div>
-                    </div>
-                    <div class="company-details__table-wrapper">
-                        <table class="company-details__table">
-                            <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Change</th>
-                            </tr>
-                            </thead>
-                            <tbody js-company-table>
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="company-details__graph" js-company-graph-container>
-                    <canvas class="company-details__graph" js-company-graph></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="overlay is-hidden" js-overlay></div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
-    <script src="scripts/listUI.js" type="text/javascript"></script>
+    <script src="scripts/home.js" type="text/javascript"></script>
 </body>
 </html>
