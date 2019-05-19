@@ -18,6 +18,7 @@
     $dom.navbarLinks = $('[js-navbar-links]');
     $dom.navbarToggle = $('[js-navbar-toggle]');
     $dom.searchMessage = $('[js-search-message]');
+    $dom.body = $('body');
 
     $dom.searchForm.addEventListener('submit', (e) => {
         e.preventDefault(); 
